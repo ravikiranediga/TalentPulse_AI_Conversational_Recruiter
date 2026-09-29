@@ -1,4 +1,4 @@
-# TalentPulse AI — Conversational ATS & Talent Intelligence Platform
+# TalentPulse AI — Conversational ATS & Talent Intelligence Platform 
 
 [![React](https://img.shields.io/badge/React-19.0-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
