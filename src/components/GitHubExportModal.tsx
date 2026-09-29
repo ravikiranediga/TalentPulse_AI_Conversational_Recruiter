@@ -18,7 +18,7 @@ interface GitHubExportModalProps {
 }
 
 export const GitHubExportModal: React.FC<GitHubExportModalProps> = ({ isOpen, onClose }) => {
-  const [repoUrl, setRepoUrl] = useState('');
+  const [repoUrl, setRepoUrl] = useState('https://github.com/ravikiranediga/TalentPulse_AI_Conversational_Recruiter');
   const [githubToken, setGithubToken] = useState('');
   const [isPushing, setIsPushing] = useState(false);
   const [statusMessage, setStatusMessage] = useState<{ type: 'success' | 'error' | 'info'; text: string } | null>(null);
