@@ -1,0 +1,6 @@
+{
+  "name": "TalentPulse AI - Production Recruitment & ATS Assistant",
+  "description": "AI recruitment assistant to parse resumes, compute explainable ATS scores, identify skill gaps, and rank candidates against job descriptions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
