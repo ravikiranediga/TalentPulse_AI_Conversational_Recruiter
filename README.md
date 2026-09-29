@@ -134,13 +134,7 @@ Every candidate is evaluated across weighted dimensions:
    TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
    ```
 
-4. **Run the Application**:
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
----
 
 ## 📱 Telegram Mobile Recruiter Setup (Optional)
 
