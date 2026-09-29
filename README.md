@@ -11,6 +11,9 @@
 
 ---
 
+Development App:
+👉 https://ais-dev-u6lya7rno7gf4nwbrf5nl3-802123425987.asia-southeast1.run.app
+
 ## 📸 Application Screenshots & UI Showcase
 
 ### 1. 🤖 Conversational AI Recruiter Assistant
