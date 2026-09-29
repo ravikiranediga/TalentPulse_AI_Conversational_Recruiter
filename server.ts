@@ -1,4 +1,6 @@
 import express, { Request, Response } from 'express';
+import fs from 'fs';
+import { execSync } from 'child_process';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -1422,8 +1424,6 @@ Currently *0 candidate resumes* are loaded in the queue.
   }
 });
 
-import fs from 'fs';
-
 // Local storage file for Telegram bot token persistence
 const TELEGRAM_TOKEN_FILE = path.join(process.cwd(), '.telegram_token');
 
@@ -2265,6 +2265,75 @@ app.get('/api/telegram-status', async (req: Request, res: Response) => {
     });
   } catch (e: any) {
     res.status(500).json({ error: e.message });
+  }
+});
+
+/**
+ * Download entire codebase archive
+ */
+app.get('/api/download-project', (req: Request, res: Response) => {
+  try {
+    execSync('tar --exclude="./node_modules" --exclude="./.git" --exclude="./dist" --exclude="./.telegram_token" -czf /tmp/talentpulse-ats.tar.gz -C /app/applet .');
+  } catch (e: any) {
+    console.warn('Error refreshing archive:', e.message);
+  }
+  const archivePath = '/tmp/talentpulse-ats.tar.gz';
+  if (fs.existsSync(archivePath)) {
+    res.download(archivePath, 'talentpulse-ats-source.tar.gz');
+  } else {
+    res.status(404).send('Project archive not found');
+  }
+});
+
+/**
+ * Direct Push to GitHub from Cloud Container
+ */
+app.post('/api/push-to-github', async (req: Request, res: Response) => {
+  try {
+    const { repoUrl, token } = req.body;
+    if (!repoUrl) {
+      return res.status(400).json({ error: 'GitHub repository URL is required (e.g. https://github.com/username/repo)' });
+    }
+
+    let targetUrl = repoUrl.trim();
+    if (token) {
+      const cleanToken = token.trim();
+      targetUrl = targetUrl.replace(/^https?:\/\//, '');
+      targetUrl = `https://${encodeURIComponent(cleanToken)}@${targetUrl}`;
+    }
+    if (!targetUrl.endsWith('.git')) {
+      targetUrl += '.git';
+    }
+
+    // Refresh git state and commit any pending changes
+    try {
+      execSync('git config user.name "TalentPulse Developer"');
+      execSync('git config user.email "dev@talentpulse.ai"');
+      execSync('git add .');
+      execSync('git commit -m "TalentPulse AI: Complete ATS Recruiter and Mobile Bot Source Code" || true');
+      execSync('git branch -M main');
+    } catch (gitErr: any) {
+      console.warn('Git setup warning:', gitErr.message);
+    }
+
+    try {
+      execSync('git remote remove origin || true');
+    } catch (e) {
+      // ignore
+    }
+
+    execSync(`git remote add origin "${targetUrl}"`);
+    execSync('git push -u origin main --force');
+
+    res.json({
+      success: true,
+      message: '🚀 Successfully pushed all project files directly to GitHub on branch main!',
+    });
+  } catch (err: any) {
+    console.error('Git push error:', err);
+    res.status(500).json({
+      error: `Failed to push to GitHub: ${err.message}. Please verify your GitHub Personal Access Token has 'repo' permissions and the repository exists.`,
+    });
   }
 });
 

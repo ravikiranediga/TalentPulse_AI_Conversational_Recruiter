@@ -26,6 +26,7 @@ import { CandidateDossierModal } from './components/CandidateDossierModal';
 import { SideBySideCompareModal } from './components/SideBySideCompareModal';
 import { ReportExportModal } from './components/ReportExportModal';
 import { SlackShareModal } from './components/SlackShareModal';
+import { GitHubExportModal } from './components/GitHubExportModal';
 import { ChatbotRecruiterView } from './components/ChatbotRecruiterView';
 import { SAMPLE_JOB_PROFILES } from './data/sampleJobProfiles';
 import { 
@@ -55,6 +56,7 @@ export default function App() {
   const [showCompareModal, setShowCompareModal] = useState<boolean>(false);
   const [showExportModal, setShowExportModal] = useState<boolean>(false);
   const [showSlackModal, setShowSlackModal] = useState<boolean>(false);
+  const [showGitHubModal, setShowGitHubModal] = useState<boolean>(false);
   // Default to Chatbot mode per user/HR requirement
   const [isChatbotMode, setIsChatbotMode] = useState<boolean>(true);
 
@@ -183,6 +185,7 @@ export default function App() {
         onSelectPreset={handleLoadPreset}
         onReset={handleReset}
         onOpenExport={() => setShowExportModal(true)}
+        onOpenGitHubExport={() => setShowGitHubModal(true)}
         hasResults={Boolean(analysisResults)}
         activePresetId={activePresetId}
         isChatbotMode={isChatbotMode}
@@ -413,6 +416,12 @@ export default function App() {
           onClose={() => setShowSlackModal(false)}
         />
       )}
+
+      {/* GitHub Export / Download Modal */}
+      <GitHubExportModal
+        isOpen={showGitHubModal}
+        onClose={() => setShowGitHubModal(false)}
+      />
     </div>
   );
 }

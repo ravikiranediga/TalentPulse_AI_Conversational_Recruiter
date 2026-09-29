@@ -5,7 +5,8 @@ import {
   RotateCcw, 
   Download, 
   Briefcase,
-  FileCheck
+  FileCheck,
+  Github
 } from 'lucide-react';
 import { SAMPLE_JOB_PROFILES } from '../data/sampleJobProfiles';
 
@@ -13,6 +14,7 @@ interface HeaderProps {
   onSelectPreset: (presetId: string) => void;
   onReset: () => void;
   onOpenExport?: () => void;
+  onOpenGitHubExport?: () => void;
   hasResults: boolean;
   activePresetId?: string;
   isChatbotMode: boolean;
@@ -23,6 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectPreset,
   onReset,
   onOpenExport,
+  onOpenGitHubExport,
   hasResults,
   activePresetId,
   isChatbotMode,
@@ -99,6 +102,17 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="text-[10px] bg-black/30 px-1.5 py-0.5 rounded text-indigo-200">ATS Studio</span>
               </button>
             </div>
+
+            {onOpenGitHubExport && (
+              <button
+                onClick={onOpenGitHubExport}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 hover:border-slate-600 rounded-lg transition-all shadow-sm cursor-pointer"
+                title="Push codebase to GitHub or download source archive"
+              >
+                <Github className="w-3.5 h-3.5 text-indigo-400" />
+                <span>GitHub / Download</span>
+              </button>
+            )}
 
             {hasResults && onOpenExport && (
               <button
